@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: >-
+  PNR analysis notebooks: refnx fitting and Fisher
+  optimisation (HOGBEN)
+message: >-
+  If you use this repository, please cite the Zenodo archive
+  DOI.
+type: software
+authors:
+  - given-names: Ivan
+    family-names: Yakymenko
+    email: ivan.yakymenko@liu.se
+    affiliation: Linköping University
+    orcid: 'https://orcid.org/0000-0003-2425-0453'
+  - given-names: Joshaniel
+    family-names: Cooper
+    email: jos.cooper@ess.eu
+    affiliation: European Spallation Source ERIC
+    orcid: 'https://orcid.org/0000-0002-4635-2381'
+repository-code: 'https://github.com/ivaya443/'
+keywords:
+  - PNR
+  - refnx
+  - neutron reflectometry
+  - Fisher information
+  - HOGBEN
+  - ISIS
+  - POLREF
+  - optimisation
