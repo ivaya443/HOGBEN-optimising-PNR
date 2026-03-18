@@ -6,7 +6,7 @@ and (ii) Fisher-information-based experimental design/optimisation using **HOGBE
 ## Contents
 - `optimisation_Fe_MRL_SiO2_cap.ipynb` -- main analysis notebook (refnx fitting + HOGBEN optimisation)
 - `functions/` -- helper modules used by the notebook
-- `figures/` -- generated figures used consistent with the article”
+- `figures/` -- generated figures used consistent with the article
 - `environment.yml` -- Conda environment specification
 
 ## Data
