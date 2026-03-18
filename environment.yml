@@ -1,4 +1,4 @@
-name: refnx
+name: hogben-optimising-pnr
 channels:
   - conda-forge
   - defaults

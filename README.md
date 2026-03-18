@@ -27,7 +27,7 @@ From a terminal **inside the repository folder** (extracted `HOGBEN-optimising-P
 ```bash
 cd HOGBEN-optimising-PNR*
 conda env create -f environment.yml
-conda activate refnx
+conda activate hogben-optimising-pnr
 pip install hogben==3.1.1
 python -c "import hogben, refnx; print('hogben', hogben.__version__, 'refnx', refnx.__version__)"
 ```
