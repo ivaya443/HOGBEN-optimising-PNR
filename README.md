@@ -39,6 +39,15 @@ With the `hogben-optimising-pnr` environment activated, start Jupyter **from the
 jupyter lab
 ```
 
+### (Optional) VS Code
+You can also run the notebook in Visual Studio Code for a more integrated workflow (editor, Git integration, and notebook UI). Open the repository folder in VS Code and select the `hogben-optimising-pnr` Python environment/kernel when prompted.
+
+If the `code` command is available, you can launch VS Code from the repository folder with:
+
+```bash
+code .
+```
+
 ### (Optional) Register the kernel (recommended for classic Notebook users)
 Run this once before using classic Notebook:
 ```bash
@@ -55,6 +64,9 @@ Then open `optimisation_Fe_MRL_SiO2_cap.ipynb` and run all cells.
 - If Jupyter opens but imports fail, select the right kernel: Kernel → Change Kernel → hogben-optimising-pnr
 - If `conda` is not found, Anaconda isn't installed or isn't on PATH.
 - If `jupyter` is not found, run `conda activate hogben-optimising-pnr` again.
+
+## Compatibility
+Tested on Windows 11, macOS, and Ubuntu 24.04 LTS using Python 3.11 via Conda (`environment.yml`). The workflow was verified with JupyterLab; classic Notebook was also tested after registering the `hogben-optimising-pnr` kernel.
 
 ## Citation
 - Software archive (Zenodo): DOI will be added after the v1.0 release.
