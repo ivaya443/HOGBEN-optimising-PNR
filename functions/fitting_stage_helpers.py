@@ -165,7 +165,6 @@ def plot_reflectivity_stage(cfg: StagePlotConfig, save_figs: bool = False, show:
     if save_figs:
         fig.subplots_adjust(left=0.14, right=0.97, bottom=0.14, top=0.97)
         fig.savefig(cfg.refl_save_path)
-        # fig.savefig(cfg.refl_save_path, bbox_inches="tight")
 
     if show:
         plt.show()
@@ -316,7 +315,6 @@ def plot_sld_stage(
     if save_figs:
         fig.subplots_adjust(left=0.14, right=0.97, bottom=0.14, top=0.97)
         fig.savefig(save_path)
-        # fig.savefig(save_path, bbox_inches="tight")
 
     if show:
         plt.show()

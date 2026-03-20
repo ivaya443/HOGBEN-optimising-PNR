@@ -99,6 +99,16 @@ def _set_eigen_x_label(ax, param_name: Optional[str], ctx: FisherContext) -> Non
 # Axis processors
 # ---------------------------
 
+def _pad_axis_xlim(ax, frac: float = 0.05) -> None:
+    xmin, xmax = ax.get_xlim()
+    if not np.isfinite(xmin) or not np.isfinite(xmax):
+        return
+    span = xmax - xmin
+    if span <= 0:
+        return
+    pad = frac * span
+    ax.set_xlim(xmin - pad, xmax + pad)
+
 def process_eigen_axis(ax, ctx: FisherContext, title: str) -> None:
     ax.set_ylabel("Information metric [arb. units]")
     ax.ticklabel_format(style="sci", axis="y", scilimits=ctx.eig_powerlimits)
@@ -127,6 +137,7 @@ def process_eigen_axis(ax, ctx: FisherContext, title: str) -> None:
     param_name = _infer_param_name_from_title(title, ctx)
     _set_eigen_x_label(ax, param_name, ctx)
     _add_baseline_line(ax, param_name, ctx.baseline_vals_by_name)
+    _pad_axis_xlim(ax, frac=0.05)
     ax.set_title("")
 
 
@@ -146,6 +157,7 @@ def process_sld_axis(ax) -> None:
         new_handles, new_labels = zip(*ordered)
         ax.legend(new_handles, new_labels, loc="upper right", fontsize="small")
 
+    _pad_axis_xlim(ax, frac=0.05)
 
 def process_reflectivity_axis(ax) -> None:
     ax.set_title("")
@@ -206,5 +218,6 @@ def process_hogben_figures(ctx: FisherContext, filename_stem: str = "Fisher") ->
         if ctx.save_figs:
             label = ctx.mrl_display_name if ctx.mrl_display_name is not None else ctx.MRL
             out_file = ctx.out_path / f"{filename_stem}_{label}_MRL_{ctx.Capping}_cap_{i}.svg"
-            fig.savefig(out_file, format="svg", bbox_inches="tight")
+            fig.subplots_adjust(left=0.14, right=0.97, bottom=0.14, top=0.97)
+            fig.savefig(out_file, format="svg")
             print(f"Saved: {out_file.name}")
