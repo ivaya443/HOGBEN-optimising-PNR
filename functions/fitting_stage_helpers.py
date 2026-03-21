@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Iterable, Optional, Sequence
 
 import numpy as np
@@ -62,6 +63,19 @@ def reversed_legend(ax, ncol: Optional[int] = None, loc: str = "upper right") ->
         kwargs["ncol"] = ncol
     ax.legend(handles[::-1], labels[::-1], **kwargs)
 
+def _save_figure(fig, path: str | Path) -> None:
+    """Save as SVG then convert to PDF alongside it."""
+    path = Path(path)
+    fig.savefig(str(path))
+    if path.suffix.lower() == ".svg":
+        try:
+            import cairosvg
+            cairosvg.svg2pdf(
+                url=str(path.resolve()),
+                write_to=str(path.with_suffix(".pdf")),
+            )
+        except ImportError:
+            pass  # cairosvg not installed -- SVG only
 
 # ---------------------------
 # Reflectivity
@@ -164,7 +178,7 @@ def plot_reflectivity_stage(cfg: StagePlotConfig, save_figs: bool = False, show:
 
     if save_figs:
         fig.subplots_adjust(left=0.14, right=0.97, bottom=0.14, top=0.97)
-        fig.savefig(cfg.refl_save_path)
+        _save_figure(fig, cfg.refl_save_path)
 
     if show:
         plt.show()
@@ -232,7 +246,7 @@ def sample_and_plot_corner(
     restyle_corner_labels(corner_fig, left=left, bottom=bottom, fontsize=fontsize)
 
     if save_figs and save_path is not None:
-        corner_fig.savefig(save_path)
+        _save_figure(corner_fig, save_path)
 
     if show:
         plt.show()
@@ -314,7 +328,7 @@ def plot_sld_stage(
 
     if save_figs:
         fig.subplots_adjust(left=0.14, right=0.97, bottom=0.14, top=0.97)
-        fig.savefig(save_path)
+        _save_figure(fig, save_path)
 
     if show:
         plt.show()
