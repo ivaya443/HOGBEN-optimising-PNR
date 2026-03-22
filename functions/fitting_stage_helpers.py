@@ -189,23 +189,110 @@ def plot_reflectivity_stage(cfg: StagePlotConfig, save_figs: bool = False, show:
 # Corner
 # ---------------------------
 
-def restyle_corner_labels(fig, left: float = 0.15, bottom: float = 0.15, fontsize: int = 15):
+# Subscript replacements for axis labels -- plain string -> mathtext
+_CORNER_LABEL_SUBS = {
+    "SiO2": r"SiO$_2$",
+    "D2O":  r"D$_2$O",
+}
+
+# Decimal format rules: substring matched against lowercase label -> format string
+_CORNER_FMT_RULES = [
+    ("thick",  "{:.1f}"),   # thicknesses: no decimals (values already ~100s)
+    ("rough",  "{:.1f}"),   # roughness: 1 decimal
+    ("solvf",  "{:.2f}"),   # solvent fraction: 2 decimals
+    ("sld",    "{:.2f}"),   # all SLDs: 2 decimals
+]
+
+def _subscript_label(text: str) -> str:
+    for raw, sub in _CORNER_LABEL_SUBS.items():
+        text = text.replace(raw, sub)
+    return text
+
+def _fmt_for_label(label: str) -> Optional[mticker.FuncFormatter]:
+    """Return a tick FuncFormatter matched by substring in the parameter label."""
+    low = label.lower()
+    for keyword, fmt_str in _CORNER_FMT_RULES:
+        if keyword in low:
+            return mticker.FuncFormatter(lambda x, _, f=fmt_str: f.format(x))
+    return None
+
+
+def restyle_corner_labels(
+    fig,
+    left: float = 0.15,
+    bottom: float = 0.15,
+    fontsize: int = 15,
+    axis_linewidth: float = 1.6,
+) -> None:
     axes = fig.axes
     n = int(len(axes) ** 0.5)
+
+    # Collect raw parameter labels from bottom-row x-axes and left-col y-axes
+    # before any modification so matching is against the original refnx name strings
+    col_labels = {}   # col index -> raw label text
+    row_labels = {}   # row index -> raw label text
+
+    for j in range(n):
+        lbl = axes[(n - 1) * n + j].xaxis.get_label().get_text()
+        if lbl:
+            col_labels[j] = lbl
+    for i in range(1, n):   # row 0 diagonal has no y-label in corner plots
+        lbl = axes[i * n + 0].yaxis.get_label().get_text()
+        if lbl:
+            row_labels[i] = lbl
 
     for i in range(n):
         for j in range(n):
             ax = axes[i * n + j]
+
+            # 1 -- spine linewidths
+            for spine in ax.spines.values():
+                spine.set_linewidth(axis_linewidth)
+            ax.tick_params(which="major", length=4, width=axis_linewidth * 0.7)
+            ax.tick_params(which="minor", length=2, width=axis_linewidth * 0.5)
+
+            # 2 -- subscript x-label (bottom row only) and reposition
             if i == n - 1:
-                label = ax.xaxis.get_label()
-                pos = label.get_position()
-                offset = -0.4 if j % 2 == 0 else -0.6
-                label.set_position((pos[0], offset))
+                xlabel = ax.xaxis.get_label()
+                new_text = _subscript_label(xlabel.get_text())
+                xlabel.set_text(new_text)
+                pos = xlabel.get_position()
+                offset = -0.45 if j % 2 == 0 else -0.65   # was -0.4 / -0.6
+                xlabel.set_position((pos[0], offset))
+
+            # 2 -- subscript y-label (left col only) and reposition
             if j == 0:
-                label = ax.yaxis.get_label()
-                pos = label.get_position()
-                offset = -0.4 if i % 2 == 0 else -0.6
-                label.set_position((offset, pos[1]))
+                ylabel = ax.yaxis.get_label()
+                new_text = _subscript_label(ylabel.get_text())
+                ylabel.set_text(new_text)
+                pos = ylabel.get_position()
+                offset = -0.45 if i % 2 == 0 else -0.65   # was -0.4 / -0.6
+                ylabel.set_position((offset, pos[1]))
+
+            # 3 -- tick decimal formatting
+            # Skip upper triangle -- corner() hides these axes and we must not touch them
+            if j > i:
+                continue
+
+            # Limit ticks — prune lower end only to avoid inter-subplot collision
+            ax.xaxis.set_major_locator(mticker.MaxNLocator(nbins=5, prune="upper"))
+            if i != j:
+                ax.yaxis.set_major_locator(mticker.MaxNLocator(nbins=5, prune="upper"))
+
+            # x-ticks: bottom row only
+            if i == n - 1:
+                raw_col = col_labels.get(j, "")
+                x_fmt = _fmt_for_label(raw_col)
+                if x_fmt:
+                    ax.xaxis.set_major_formatter(x_fmt)
+
+            # y-ticks: left column only
+            if j == 0 and i != j:
+                raw_row = row_labels.get(i, "")
+                y_fmt = _fmt_for_label(raw_row)
+                if y_fmt:
+                    ax.yaxis.set_major_formatter(y_fmt)
+
 
     fig.subplots_adjust(left=left, bottom=bottom)
     for text in fig.findobj(match=lambda x: hasattr(x, "set_fontsize")):
@@ -224,6 +311,7 @@ def sample_and_plot_corner(
     left: float = 0.15,
     bottom: float = 0.15,
     fontsize: int = 15,
+    axis_linewidth: float = 1.6,
 ):
     if not do_sampling:
         return None
@@ -243,10 +331,39 @@ def sample_and_plot_corner(
         },
     )
 
-    restyle_corner_labels(corner_fig, left=left, bottom=bottom, fontsize=fontsize)
+    restyle_corner_labels(
+        corner_fig,
+        left=left,
+        bottom=bottom,
+        fontsize=fontsize,
+        axis_linewidth=axis_linewidth,
+    )
 
     if save_figs and save_path is not None:
-        _save_figure(corner_fig, save_path)
+        # Collect all axis labels so tight bbox includes them
+        extra = []
+        for ax in corner_fig.axes:
+            xl = ax.xaxis.get_label()
+            yl = ax.yaxis.get_label()
+            if xl.get_text():
+                extra.append(xl)
+            if yl.get_text():
+                extra.append(yl)
+
+        corner_fig.savefig(
+            str(save_path),
+            bbox_inches="tight",
+            bbox_extra_artists=extra,
+            pad_inches=0.1,
+        )
+        try:
+            import cairosvg
+            cairosvg.svg2pdf(
+                url=str(Path(save_path).resolve()),
+                write_to=str(Path(save_path).with_suffix(".pdf")),
+            )
+        except Exception as e:
+            print(f"  PDF conversion skipped: {e}")
 
     if show:
         plt.show()
@@ -359,6 +476,7 @@ def run_fitting_stage_plots(
         left=cfg.corner_left,
         bottom=cfg.corner_bottom,
         fontsize=cfg.corner_fontsize,
+        axis_linewidth=cfg.axis_linewidth,
     )
 
     sld_fig, sld_ax = plot_sld_stage(
