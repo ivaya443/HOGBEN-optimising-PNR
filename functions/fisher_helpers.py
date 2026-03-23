@@ -436,9 +436,6 @@ def _classify_figure(fig, ctx: FisherContext) -> str:
         ylabel = ax.get_ylabel() or ""
         title  = ax.get_title()  or ""
         if "Minimum eigenvalue" in ylabel:
-            print(f"  DEBUG eigen title: {repr(title)}")  # <-- add this
-            print(f"  DEBUG looking for: {repr(ctx.mrl_thick_name)}, {repr(ctx.cap_thick_name)}")
-
             param = _infer_param_name_from_title(title, ctx)
             if param == ctx.mrl_thick_name:
                 return f"eigen_{ctx.MRL}_thick"

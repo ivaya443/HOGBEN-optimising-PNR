@@ -1,23 +1,22 @@
-26-03-15 Fitted Parameters (after sampling)
+26-03-23 Fitted Parameters (after sampling)
 ________________________________________________________________________________
-<Parameter:'Native SiO2 Thick.', value=35.2299 +/- 0.532, bounds=[25.0, 50.0]>
-<Parameter:'Native SiO2 SLD', value=3.5248 +/- 0.03 , bounds=[3.0, 4.0]>
-<Parameter:'Fe Thickness' , value=110.273 +/- 0.125, bounds=[90.0, 115.0]>
-<Parameter:   'Fe nSLD'   , value=7.81704 +/- 0.00879, bounds=[7.0, 8.3]>
-<Parameter:   'Fe mSLD'   , value=4.5837 +/- 0.00834, bounds=[4.5, 5.0]>
-<Parameter:'Fe Roughness' , value=2.16042 +/- 0.175, bounds=[2.0, 5.0]>
-<Parameter:'Cap SiO2 Thickness', value=1131.3 +/- 0.566, bounds=[1020.0, 1200.0]>
-<Parameter:'Cap SiO2 SLD' , value=3.70964 +/- 0.00272, bounds=[3.0, 4.0]>
-<Parameter:'Cap SiO2 Roughness', value=7.71618 +/- 0.253, bounds=[2.0, 10.0]>
-<Parameter:'Toplayer SiO2 Rough.', value=4.56652 +/- 0.503, bounds=[1.0, 6.0]>
+<Parameter:'Native SiO2 Thick.', value=35.2326 +/- 0.537, bounds=[25.0, 50.0]>
+<Parameter:'Native SiO2 SLD', value=3.52534 +/- 0.0309, bounds=[3.0, 4.0]>
+<Parameter:'Fe Thickness' , value=110.274 +/- 0.122, bounds=[90.0, 115.0]>
+<Parameter:   'Fe nSLD'   , value=7.81668 +/- 0.00873, bounds=[7.0, 8.3]>
+<Parameter:   'Fe mSLD'   , value=4.58413 +/- 0.00862, bounds=[4.5, 5.0]>
+<Parameter:'Fe Roughness' , value=2.15212 +/- 0.158, bounds=[2.0, 5.0]>
+<Parameter:'Cap SiO2 Thickness', value=1131.34 +/- 0.562, bounds=[1020.0, 1200.0]>
+<Parameter:'Cap SiO2 SLD' , value=3.70976 +/- 0.00278, bounds=[3.0, 4.0]>
+<Parameter:'Cap SiO2 Roughness', value=7.71757 +/- 0.246, bounds=[2.0, 10.0]>
+<Parameter:'Toplayer SiO2 Rough.', value=4.56403 +/- 0.514, bounds=[1.0, 6.0]>
 
 Lipids:
-<Parameter:'Inner D2O layer Thick.', value=5.71838 +/- 0.578, bounds=[3.0, 15.0]>
-<Parameter:'Lipid TRIS heads Thick.', value=14.9394 +/- 0.0728, bounds=[6.0, 15.0]>
-<Parameter:'Lipid TRIS heads SLD solvf', value=0.653262 +/- 0.029, bounds=[0.3, 0.7]>
-<Parameter:'Lipid TRIS tails Thick.', value=30.9449  +/- 1.1 , bounds=[25.0, 40.0]>
-<Parameter:'Lipid TRIS tails SLD solvf', value=0.132795 +/- 0.00898, bounds=[0.0, 0.2]>
-
+<Parameter:'Inner D2O layer Thick.', value=5.74797 +/- 0.579, bounds=[3.0, 15.0]>
+<Parameter:'Lipid TRIS heads Thick.', value=14.9374 +/- 0.0745, bounds=[6.0, 15.0]>
+<Parameter:'Lipid TRIS heads SLD solvf', value=0.65183 +/- 0.0292, bounds=[0.3, 0.7]>
+<Parameter:'Lipid TRIS tails Thick.', value=30.9084 +/- 1.14 , bounds=[25.0, 40.0]>
+<Parameter:'Lipid TRIS tails SLD solvf', value=0.132394 +/- 0.00898, bounds=[0.0, 0.2]>
 HOGBEN:
 	
 1)
@@ -25,11 +24,11 @@ MRL_thick.bounds = (0, 300) # Set the range to optimise over
 cap_thick.bounds = (0, 1400) # Set the range to optimise over
 
 Fe Thickness: 12.3
-Cap SiO2 Thickness: 5.65
+Cap SiO2 Thickness: 5.49
 -----------------------------------------------------------------
-The minimum eigenvalue of the Fisher Information before optimization: 0.036
-The minimum eigenvalue of the Fisher Information after optimization: 0.161
-The information content is 4.48 times as large after optimization.
+The minimum eigenvalue of the Fisher Information before optimization: 0.0353
+The minimum eigenvalue of the Fisher Information after optimization: 0.16
+The information content is 4.53 times as large after optimization.
 
 2)
 MRL_thick.bounds = (0, 300) # Set the range to optimise over
@@ -37,12 +36,12 @@ cap_thick.bounds = (0, 1400) # Set the range to optimise over
 MRL_sld.bounds = (-1, 7) # Set the range to optimise over
 MRL_mag.bounds = (-0.1, 6) # Set the range to optimise over
 
-Fe nSLD: 5.17
+Fe Thickness: 12.2
+Cap SiO2 Thickness: 2.09
+Fe nSLD: 5.08
 Fe mSLD: 6
-Fe Thickness: 12.3
-Cap SiO2 Thickness: 2.02
 -----------------------------------------------------------------
-The minimum eigenvalue of the Fisher Information before optimization: 0.036
-The minimum eigenvalue of the Fisher Information after optimization: 0.198
-The information content is 5.51 times as large after optimization.
+The minimum eigenvalue of the Fisher Information before optimization: 0.0353
+The minimum eigenvalue of the Fisher Information after optimization: 0.197
+The information content is 5.59 times as large after optimization.
 
