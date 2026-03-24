@@ -21,6 +21,10 @@ dependencies:
   # Prebuilt binaries on macOS/Windows/Linux (avoid pip builds)
   - refl1d
 
+  # native cairo runtime + python binding
+  - cairo
+  - cairocffi
+
   - pip:
       - refnx==0.1.58
       - svgutils
