@@ -21,7 +21,13 @@ dependencies:
   # Prebuilt binaries on macOS/Windows/Linux (avoid pip builds)
   - refl1d
 
+  # native cairo runtime + python binding
+  - cairo
+  - cairocffi
+
   - pip:
       - refnx==0.1.58
+      - svgutils
+      - cairosvg
       # Install hogben after env creation (see README), or keep here if it works for you
       # but macOS users may hit llvmlite build errors if refl1d is not already installed.

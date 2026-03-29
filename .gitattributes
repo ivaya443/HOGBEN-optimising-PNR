@@ -1,0 +1,6 @@
+# Handle line endings automatically for all text files
+* text=auto
+
+# Specifically ensure Python and Notebooks are normalized to LF in the repo
+*.py text
+*.ipynb text
