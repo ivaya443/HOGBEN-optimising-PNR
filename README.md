@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/1182777666.svg)](https://doi.org/10.5281/zenodo.19323497)
+
 # HOGBEN-optimising-PNR
 
 Jupyter notebook workflow for (i) fitting polarised neutron reflectometry (PNR) data using **refnx**
